@@ -1,6 +1,6 @@
 {
   "name": "oathframe-lib",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Build, edit, render, and manipulate large multi-part markdown documents.",
   "main": "index.js",
   "scripts": {
