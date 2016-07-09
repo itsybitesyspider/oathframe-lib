@@ -1,0 +1,23 @@
+{
+  "name": "oathframe-lib",
+  "version": "0.0.1",
+  "description": "Build, edit, render, and manipulate large multi-part markdown documents.",
+  "main": "index.js",
+  "scripts": {
+    "test": "eslint ./src/** ./spec/** && jasmine",
+    "clean": "rimraf node_modules"
+  },
+  "author": "Christopher Lane Hinson <clanehin@gmail.com>",
+  "license": "AGPLv3",
+  "devDependencies": {
+    "eslint": "^2.13.1",
+    "jasmine": "^2.4.1",
+    "rimraf": "^2.5.2",
+    "tmp": "0.0.28"
+  },
+  "dependencies": {
+    "fs-promise": "^0.5.0",
+    "marked": "^0.3.5",
+    "minimist": "^1.2.0"
+  }
+}

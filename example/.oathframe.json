@@ -1,0 +1,9 @@
+{
+  "sections": [
+    "a.md",
+    "b.md",
+    "c.md",
+    "nested/.oathframe.json",
+    "d.md"
+  ]
+}
