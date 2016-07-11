@@ -45,6 +45,11 @@ Resource.traverse = function(to) {
     .then(() => undefined);
 };
 
+Resource.write = function(text) {
+  return fs.writeFile(this.filepath, text, { encoding: 'utf8' })
+    .then(() => console.error('Updated: ' + this.filepath));  // eslint-disable-line no-console
+};
+
 module.exports.create = function(filepath) {
   filepath = module.exports.filepath(filepath);
 
