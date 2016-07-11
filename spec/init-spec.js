@@ -9,7 +9,7 @@ describe('The init function', function() {
     //and then peek around to make sure it looks like an empty index
 
     index.init(this.tmp_dir + '/doesnotexist')
-      .then(() => index.render.asString(this.tmp_dir + '/doesnotexist', 'md'))
+      .then(() => index.render.asString(this.tmp_dir + '/doesnotexist', 'markdown'))
       .then(result => {
         expect(result).toBe('');
       })

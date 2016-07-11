@@ -4,13 +4,14 @@
   "description": "Build, edit, render, and manipulate large multi-part markdown documents.",
   "main": "src/index.js",
   "scripts": {
-    "test": "eslint ./src/** ./spec/** && jasmine",
+    "test": "eslint ./src/** ./spec/** && jasmine && istanbul cover jasmine",
     "clean": "rimraf node_modules"
   },
   "author": "Christopher Lane Hinson <clanehin@gmail.com>",
   "license": "AGPLv3",
   "devDependencies": {
     "eslint": "^2.13.1",
+    "istanbul": "^0.4.4",
     "jasmine": "^2.4.1",
     "rimraf": "^2.5.2",
     "tmp": "0.0.28"
