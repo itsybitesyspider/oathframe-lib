@@ -1,6 +1,8 @@
 'use strict';
 
 const index = require('../src/index');
+const Resource = require('../src/Resource');
+const path = require('path');
 
 describe('The init function', function() {
   it('creates a directory with an index file', function(done) {
@@ -9,15 +11,15 @@ describe('The init function', function() {
     //and then peek around to make sure it looks like an empty index
 
     index.init(this.tmp_dir + '/doesnotexist')
-      .then(() => index.render.asString(this.tmp_dir + '/doesnotexist', 'markdown'))
+      .then(() => index.render.asString(this.tmp_dir + '/doesnotexist'))
       .then(result => {
         expect(result).toBe('');
       })
-      .then(() => index.render.asArray(this.tmp_dir + '/doesnotexist', 'json'))
-      .then(result => {
-        expect(result.length).toBe(1);
-        expect(typeof result[0]).toBe('object');
-        expect(result[0].sections.length).toBe(0);
+      .then(() => Resource.resolve(this.tmp_dir + '/doesnotexist'))
+      .then(resource => resource.readJSON())
+      .then(json => {
+        expect(typeof json).toBe('object');
+        expect(json.sections.length).toBe(0);
       })
       .then(done)
       .catch(done.fail);
@@ -31,7 +33,7 @@ describe('The init function', function() {
 
   it('fails when run twice on the same directory', function(done) {
     index.init(this.tmp_dir + '/empty')
-      .then(() => index.init(this.tmp_dir + '/empty'))
+      .then(() => index.init(path.join(this.tmp_dir,'empty')))
       .then(done.fail)
       .catch(done);
   });

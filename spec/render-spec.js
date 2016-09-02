@@ -4,7 +4,7 @@ const index = require('../src/index');
 
 describe('The render function', () => {
   it('Renders a single markdown document', (done) => {
-    index.render('./example/a.md', 'html', md => {
+    index.render('./example/a.md', md => {
       expect(md).toMatch(/beginning/);
       done();
     }).catch(done.fail);
@@ -14,7 +14,7 @@ describe('The render function', () => {
 describe('The render function', () => {
   it('Renders an index document with all children', (done) => {
     let result = '';
-    index.render('./example/', 'html', md => {
+    index.render('./example/', md => {
       result += md;
     }).then(() => {
       expect(result).toMatch(/beginning/);
