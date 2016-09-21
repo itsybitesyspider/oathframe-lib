@@ -34,8 +34,12 @@ Directory.physicalFilepath = function() {
   return path.join(this.filepath(), '.oathframe.json');
 };
 
+Resource.exists = function() {
+  return fs.access(this.filepath(), fs.R_OK);
+};
+
 // Write text to this file.
-Resource.writeText = function(text, options) {
+File.writeText = function(text, options) {
   options = options || {};
   options = Object.assign({encoding:'utf8'}, options);
 
@@ -47,7 +51,7 @@ Resource.writeText = function(text, options) {
 };
 
 // Read the text of this file.
-Resource.readText = function() {
+File.readText = function() {
   return fs.readFile(this.physicalFilepath(), {encoding:'utf8'})
     .then(contents => {
       console.error('Read: ' + this.filepath()); // eslint-disable-line no-console
@@ -101,10 +105,22 @@ Resource.traverse = function(f) {
   });
 };
 
-// Create a new file.
-function createFile(filepath) {
+// Check that a filepath meets all of our requirements.
+function normalizeFilepath(filepath) {
+  if( typeof filepath !== 'string' )
+    throw new Error('Parameter ' + filepath + ' is not a string.');
+
+  filepath = path.resolve(filepath);
+
   if(path.basename(filepath).startsWith('.'))
     throw new Error('No dotfiles.');
+
+  return filepath;
+}
+
+// Create a new file.
+function createFile(filepath) {
+  filepath = normalizeFilepath(filepath);
 
   const result = Object.assign(Object.create(File), {
     _filepath: filepath
@@ -119,8 +135,7 @@ module.exports.createFile = createFile;
  * Create a Resource based on the specified filepath.
  */
 function createDirectory(filepath) {
-  if(path.basename(filepath).startsWith('.'))
-    throw new Error('No dotfiles.');
+  filepath = normalizeFilepath(filepath);
 
   const result = Object.assign(Object.create(Directory), {
     _filepath: filepath

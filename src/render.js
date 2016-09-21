@@ -17,11 +17,15 @@ module.exports = function() {
     to = arguments[2];
   }
 
+  if( typeof options !== 'object' )
+    throw new Error('The options parameter must be an object, but was ' + options);
+
   options.fromText = options.fromText || (x => Promise.resolve(x));
   options.fromJSON = options.fromJSON || (() => Promise.resolve(''));
   options.render = options.render || (x => Promise.resolve(marked(x)));
 
-  return resource.then(r => implementation(r, options, to));
+  return resource.then(r => implementation(r, options, to))
+    .then(() => 'ok');
 };
 
 function implementation(resource, options, to) {
@@ -34,7 +38,7 @@ function implementation(resource, options, to) {
     else if( Resource.isDirectory(i) )
       return i.readJSON().then(options.fromJSON).then(options.render).then(to);
     else
-      throw new Error('Not sure what to do with ' + i);
+      throw new Error('Not sure what to do with ' + i + '. Please report this as a bug.');
   });
 }
 
