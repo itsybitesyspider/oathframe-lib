@@ -34,10 +34,6 @@ Directory.physicalFilepath = function() {
   return path.join(this.filepath(), '.oathframe.json');
 };
 
-Resource.exists = function() {
-  return fs.access(this.filepath(), fs.R_OK);
-};
-
 // Write text to this file.
 File.writeText = function(text, options) {
   options = options || {};
@@ -103,6 +99,32 @@ Resource.traverse = function(f) {
     });
     return result;
   });
+};
+
+// Returns true (as a promise) iff this Resource is not in the directory
+// specified by the parameter. (see Resource.contains)
+Resource.containedBy = function(what) {
+  return Resource.resolve(what).then(w => w.contains(this));
+};
+
+// Returns true (as a Promise) if the parameter is in this directory.
+// This does not check whether or not the parameter is an orphan.
+Resource.contains = function() {
+  return Promise.resolve(false);
+};
+
+Directory.contains = function(what_) {
+  return resolve(what_).then(what => {
+    return path.dirname(what.filepath()) === this.filepath();
+  });
+};
+
+// Returns true (as a Promise) iff this Resource is listed in
+// it's parent's index.
+Resource.orphan = function() {
+  return Resource.resolve( path.dirname(this.filepath()) )
+    .then(parent => parent.sections())
+    .then(sections => sections.indexOf( path.basename(this.filepath()) >= 0 ));
 };
 
 // Check that a filepath meets all of our requirements.
