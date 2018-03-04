@@ -1,8 +1,10 @@
 build:
-	npm install
-	npm test
+	yarn install
+
+test:
+	yarn test
 
 clean:
-	npm run clean
+	yarn run clean
 
-.PHONY: build clean
+.PHONY: build clean test
