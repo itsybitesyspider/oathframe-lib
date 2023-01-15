@@ -22,7 +22,7 @@ module.exports = function() {
 
   options.fromText = options.fromText || (x => Promise.resolve(x));
   options.fromJSON = options.fromJSON || (() => Promise.resolve(''));
-  options.render = options.render || (x => Promise.resolve(marked(x)));
+  options.render = options.render || (x => Promise.resolve(marked.marked.parse(x)));
 
   return resource.then(r => implementation(r, options, to))
     .then(() => 'ok');
